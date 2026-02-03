@@ -6,31 +6,47 @@ namespace LINQProgram
     {
         static void Main(string[] args)
         {
-            // OfType Operator | Filtering Operator
-            // OfType is used to filter specific data based on their type.
-            // OfType is used as a generic method to filter data based on any type.
-            var dataSource = new List<object>() { "Adam", "Harry", "Kim", "John", 1, 2, 3, 4, 5 };
+            // Sorting Operators 
+            // There are five methods in Sorting:
+            // 1. OrderBy: Sort data in ascending order.
+            // 2. OrderByDescending: Sort data in descending order.
+            // 3. ThenBy
+            // 4. ThenByDescending
+            // 5. Reverse
 
-            var methodSyntax = dataSource.OfType<string>().Where(x => x.Length > 3).ToList();
-            var querySyntax = (from x in dataSource
-                              where x is string
-                              select Convert.ToString(x)).ToList();
+            // OrderBy
+            var dataSourceInt = new List<int>() { 5, 12, 13, 1, 8, 33, 20 };
+
+            var dataSourceString = new List<string>()
+            {
+                "Smith",
+                "Anderson",
+                "Wright",
+                "Mitchell",
+                "Thomas",
+                "Allen",
+                "Evans",
+                "Collins"
+            };
+
+            //var querySyntax = (from num in dataSourceInt
+            //                   where num > 15
+            //                  orderby num
+            //                  select num).ToList();
+            //var methodSyntax = dataSourceInt.Where(num => num > 15).OrderBy(num => num).ToList();
+
+            var querySyntax = (from name in dataSourceString
+                              orderby name
+                              select name).ToList();
+
+            var methodSyntax = dataSourceString.OrderBy(name => name).ToList();
+
+            foreach (var name in querySyntax)
+            {
+                Console.WriteLine(name);
+            }
 
             Console.ReadLine();
         }
-    }
-
-    class Employees
-    {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Email { get; set; }
-        // public List<string>? Programming { get; set; }
-        public List<Techs>? Programming { get; set; }
-    }
-
-    class Techs
-    {
-        public string? Technology { get; set; }
     }
 }
