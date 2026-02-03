@@ -82,10 +82,10 @@
 
             List<Employees> employees = new List<Employees>()
             {
-                new Employees { Id = 1, Name = "Emp1", Email = "Emp1@abc.co", 
+                new Employees { Id = 1, Name = "Emp1", Email = "Emp1@abc.co",
                     Programming = new List<Techs> {
-                    new Techs() {Technology = "C#" }, 
-                    new Techs() {Technology = "PHP" }, 
+                    new Techs() {Technology = "C#" },
+                    new Techs() {Technology = "PHP" },
                     new Techs() {Technology = "JAVA" }
                 } },
                 new Employees { Id = 2, Name = "Emp2", Email = "Emp2@abc.co",Programming = new List<Techs> {
@@ -102,13 +102,22 @@
                 new Employees { Id = 5, Name = "Emp5", Email = "Emp5@abc.co", Programming = new List<Techs>() }
             };
 
-            var methodSyntax = employees.SelectMany(emp => emp.Programming).ToList();
+            //var methodSyntax = employees.SelectMany(emp => emp.Programming).ToList();
 
-            var querySyntax = (from emp in employees
-                              from program in emp.Programming
-                              select program).ToList();
+            //var querySyntax = (from emp in employees
+            //                  from program in emp.Programming
+            //                  select program).ToList();
 
+            // Filtering Operators - Where Operator
+            // Filtering is the porcess to get only those elements form a data souce who satisfy a specified condition.
+            // Where is used to filter specific data from a data source based on a condition.
+            List<int> list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            //var querySyntax = (from number in list
+            //                   where number % 2 == 0
+            //                   select number).ToList();
+            //var methodSyntax = list.Where(x => x % 2 == 0).ToList();
 
+            var querySyntax = employees.Where(emp => emp.Programming.Count == 0).ToList(); ;
 
             Console.ReadLine();
         }
