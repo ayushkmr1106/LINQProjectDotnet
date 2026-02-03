@@ -35,16 +35,23 @@ namespace LINQProgram
             //                  select num).ToList();
             //var methodSyntax = dataSourceInt.Where(num => num > 15).OrderBy(num => num).ToList();
 
-            var querySyntax = (from name in dataSourceString
-                              orderby name
-                              select name).ToList();
+            //var querySyntax = (from name in dataSourceString
+            //                  orderby name
+            //                  select name).ToList();
 
-            var methodSyntax = dataSourceString.OrderBy(name => name).ToList();
+            //var methodSyntax = dataSourceString.OrderBy(name => name).ToList();
 
-            foreach (var name in querySyntax)
-            {
-                Console.WriteLine(name);
-            }
+            //foreach (var name in querySyntax)
+            //{
+            //    Console.WriteLine(name);
+            //}
+
+            // OrderByDescending
+            var methodSyntax = dataSourceInt.OrderByDescending(num => num).ToList();
+
+            var querySyntax = (from num in dataSourceInt
+                              orderby num descending
+                              select num).ToList();
 
             Console.ReadLine();
         }

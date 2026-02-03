@@ -16,6 +16,6 @@ namespace LINQProgram
 
     public class Techs
     {
-        public string Technology { get; set; }
+        public string? Technology { get; set; }
     }
 }
