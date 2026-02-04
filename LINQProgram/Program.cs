@@ -29,29 +29,49 @@ namespace LINQProgram
                 "Collins"
             };
 
-            //var querySyntax = (from num in dataSourceInt
-            //                   where num > 15
-            //                  orderby num
-            //                  select num).ToList();
-            //var methodSyntax = dataSourceInt.Where(num => num > 15).OrderBy(num => num).ToList();
+            var dataSource = new List<Employee>()
+            {
+                new Employee()
+                {
+                    Id = 3,
+                    Email = "Smith@abc.co",
+                    LastName = "Smith",
+                    FirstName = "Foo"
+                },
+                new Employee()
+                {
+                    Id = 2,
+                    Email = "Thomas@abc.co",
+                    LastName = "Thomas",
+                    FirstName = "Mark"
+                },
+                new Employee()
+                {
+                    Id = 1,
+                    Email = "Allen@email.com",
+                    LastName = "Allen",
+                    FirstName = "Mark"
+                },
+                new Employee()
+                {
+                    Id = 4,
+                    Email = "Anderson@email.com",
+                    LastName = "Anderson",
+                    FirstName = "Foo"
+                }
+            };
 
-            //var querySyntax = (from name in dataSourceString
-            //                  orderby name
-            //                  select name).ToList();
+            var methodSyntax = dataSource.OrderBy(emp => emp.FirstName).ThenByDescending(emp => emp.LastName).ToList();
 
-            //var methodSyntax = dataSourceString.OrderBy(name => name).ToList();
+            var querySyntax = (from emp in dataSource
+                              orderby emp.FirstName descending, emp.LastName descending
+                              select emp).ToList();
 
-            //foreach (var name in querySyntax)
-            //{
-            //    Console.WriteLine(name);
-            //}
+            foreach (var item in querySyntax)
+            {
+                Console.WriteLine($"Id: {item.Id}, Full Name: {item.FirstName} {item.LastName}, Email: {item.Email}");
+            }
 
-            // OrderByDescending
-            var methodSyntax = dataSourceInt.OrderByDescending(num => num).ToList();
-
-            var querySyntax = (from num in dataSourceInt
-                              orderby num descending
-                              select num).ToList();
 
             Console.ReadLine();
         }
