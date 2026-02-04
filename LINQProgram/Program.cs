@@ -61,15 +61,24 @@ namespace LINQProgram
                 }
             };
 
-            var methodSyntax = dataSource.OrderBy(emp => emp.FirstName).ThenByDescending(emp => emp.LastName).ToList();
+            // Reverse Operator
+            int[] rollNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            var querySyntax = (from emp in dataSource
-                              orderby emp.FirstName descending, emp.LastName descending
-                              select emp).ToList();
+            var methodSyntax = rollNums.Reverse();
 
-            foreach (var item in querySyntax)
+            // Mixed Syntax
+            var querySyntax = (from number in rollNums
+                               select number).Reverse();
+            
+            // System.Collections.Generic namespace - In-Place Sorting
+            // dataSourceString.Reverse();
+            
+            // System.Linq namespace - Out-Of-Place Sorting
+            var qs = dataSourceString.AsEnumerable().Reverse();
+            
+            foreach (var item in qs)
             {
-                Console.WriteLine($"Id: {item.Id}, Full Name: {item.FirstName} {item.LastName}, Email: {item.Email}");
+                Console.WriteLine(item);
             }
 
 
