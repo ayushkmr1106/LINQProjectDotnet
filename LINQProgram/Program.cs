@@ -10,127 +10,36 @@ namespace LINQProgram
         static void Main(string[] args)
         {
 
-            List<Employee> employees = new()
-            {
-                new Employee() { Id = 1, FirstName = "Joey"},
-                new Employee() {Id = 2, FirstName = "John" , LastName ="Stark", Email = "def@xyz.co"},
-                new Employee() {Id = 3, FirstName = "Kim" , LastName ="Stark", Email = "def@xyz.co"},
-                new Employee() {Id = 3, FirstName = "Kim" , LastName ="Stark", Email = "def@xyz.co"},
+            // Partitioning operations
+            // Partitioning operations are used to divide data source into two parts and return one of them as output without changing element positions.
+            // Take (Take operator is used to get first n number of records from a data source.)
+            // TakeWhile
+            // (TakeWhile operator is used to get all records from a data source until a specified condition is true.)
+            // (Once the condition is failed TAkeWhile will not alidate rest elements even if the condition is true for remaining elements.
+            // Skip (Skip operator is used to skip first n number of records from a data source and select remaining elements as an output.)
+            // SkipWhile (SkipWhile operator is used to skip all reocurds from a data source until a condition is true and select remaining elements as an output.)
 
-            };
+            int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 4, 3, 8, 9, 10 };
 
+            List<string> names = new List<string>() { "Kim", "John", "Mark", "Adam", "Sam" };
 
-            List<Student> student1 = new()
-            {
-                new Student() {Id= 1, Name = "John"},
-                new Student() {Id= 2, Name = "Kim"},
-                new Student() {Id= 3, Name = "Ava"},
-                new Student() {Id= 4, Name = "Mark"},
-            };
+            // Take
+            var msTake = numbers.Take(5).ToArray();
+            var msTakeWhere = numbers.Where(num => num > 3).Take(5).ToArray();
 
-            List<Student> student2 = new()
-            {
-                new Student() {Id= 1, Name = "John"},
-                new Student() {Id= 2, Name = "Kim"},
-                new Student() {Id= 5, Name = "Joey"},
-                new Student() {Id= 6, Name = "Sam"},
-            };
+            // TakeWhile
+            var msTakeWhile = numbers.TakeWhile(num => num < 5).ToArray();
+            var msTakeWhile1 = names.TakeWhile((name, index) => index < 3).ToArray();
 
-            // Set Operations
-            // Distinct (Removes duplicate values from data source)
-            // Except (Returns all the elements from one data source that do not exist in second data source)
-            // Interset (Returns all the elements which exist in both the data source.)
-            // Union (Returns all the elements that appear in either of two data sources.)
-            // IEquatable & IEquality operator
+            // Skip
+            var msSkip = numbers.Skip(5).ToArray();
+            var msSkipWhere = numbers.Where(x => x > 5).Skip(2).ToArray();
 
-            // Distinct Operator
-            List<int> numbers = new() { 1, 2, 3, 2, 1, 3, 2, 5, 4, 6 };
-            var ms = numbers.Distinct().ToList();
-
-            var distinctEmployee = employees.Select(emp => emp.FirstName).Distinct().ToList();
-
-            var methodSyntax = employees.Distinct().ToList();
-
-            // Except Operator
-            List<string> datasource1 = new() { "A", "B", "C", "D" };
-            List<string> datasource2 = new() { "C", "D", "E", "F" };
-
-            var result = datasource1.Except(datasource2).ToList();
-
-            var res = student1.Select(stud => stud.Name).Except(student2.Select(std => std.Name)).ToList();
-
-            var msExceptUsingAnoynmous = student1.Select(x => new { x.Id, x.Name }).Except(student2.Select(x => new { x.Id, x.Name })).ToList();
-
-            var msExceptUsingComparer = student1.Except(student2, new StudentComparer()).ToList();
-
-            // Intersect Operator
-            var msIntersect = datasource1.Intersect(datasource2).ToList();
-            var msIntersect1 = student1.Select(stud => stud.Name).Intersect(student2.Select(stud => stud.Name)).ToList();
-
-            var msIntersectUsingAnoynmous = student1.Select(x => new { x.Id, x.Name}).Intersect(student2.Select( y => new { y.Id, y.Name })).ToList();
-
-            var msIntrsectUsingComparer = student1.Intersect(student2, new StudentComparer()).ToList();
-
-            // Union Operator
-            var msUnion = datasource1.Union(datasource2).ToList();
-            var msUnion1 = student1.Select(stud => stud.Name).Union(student2.Select(stud => stud.Name)).ToList();
-
-            var msUnionUsingAnoynmous = student1.Select(x => new { x.Id, x.Name }).Union(student2.Select(y => new { y.Id, y.Name })).ToList();
-
-            var msUnionUsingComparer = student1.Union(student2, new StudentComparer()).ToList();
+            // SkipWhile
+            var msSkipWhile = numbers.SkipWhile(x => x < 6).ToArray();
+            var msSKipWhile1 = names.SkipWhile((name, index) => index < 3).ToArray();
 
             Console.ReadLine();
         }
-
-        class StudentComparer : IEqualityComparer<Student>
-        {
-            public bool Equals(Student? x, Student? y)
-            {
-                if (object.ReferenceEquals(x, y))
-                {
-                    return true;
-                }
-                if (object.ReferenceEquals(x, null) || object.ReferenceEquals(y, null))
-                {
-                    return false;
-                }
-                return x.Id.Equals(y.Id) && x.Name.Equals(y.Name);
-            }
-
-            public int GetHashCode([DisallowNull] Student obj)
-            {
-                int idHashCode = obj.Id.GetHashCode();
-                int nameHashCode = obj.Name == null ? 0 : obj.Name.GetHashCode();
-
-                return idHashCode ^ nameHashCode;
-            }
-        }
-
-        class EmployeeComparer : IEqualityComparer<Employee>
-        {
-            public bool Equals(Employee? x, Employee? y)
-            {
-                if (object.ReferenceEquals(x, y))
-                {
-                    return true;
-                }
-                if (object.ReferenceEquals(x, null) || object.ReferenceEquals(y, null))
-                {
-                    return false;
-                }
-                return x.Id.Equals(y.Id) && x.FirstName.Equals(y.FirstName) && x.LastName.Equals(y.LastName) && x.Email.Equals(y.Email);
-            }
-
-            public int GetHashCode([DisallowNull] Employee obj)
-            {
-                int idHashCode = obj.Id.GetHashCode();
-                int firstNameHashCode = obj.FirstName == null ? 0 : obj.FirstName.GetHashCode();
-                int lastNameHashCode = obj.LastName == null ? 0 : obj.LastName.GetHashCode();
-                int emailHashCode = obj.Email == null ? 0 : obj.Email.GetHashCode();
-
-                return idHashCode ^ firstNameHashCode ^ lastNameHashCode ^ emailHashCode;
-            }
-        }
-
     }
 }
