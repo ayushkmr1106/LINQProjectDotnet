@@ -8,14 +8,7 @@ namespace LINQProgram
 {
     internal class Student
     {
+        public int Id { get; set; }
         public string? Name { get; set; }
-        public int Marks { get; set; }
-        public List<Subject>? Subject {  get; set; }
-    }
-
-    internal class Subject()
-    {
-        public string? SubjectName { get; set; }
-        public int SubjectMarks { get; set; }
     }
 }
