@@ -11,35 +11,51 @@ namespace LINQProgram
         {
 
             // Partitioning operations
-            // Partitioning operations are used to divide data source into two parts and return one of them as output without changing element positions.
-            // Take (Take operator is used to get first n number of records from a data source.)
-            // TakeWhile
-            // (TakeWhile operator is used to get all records from a data source until a specified condition is true.)
-            // (Once the condition is failed TAkeWhile will not alidate rest elements even if the condition is true for remaining elements.
-            // Skip (Skip operator is used to skip first n number of records from a data source and select remaining elements as an output.)
-            // SkipWhile (SkipWhile operator is used to skip all reocurds from a data source until a condition is true and select remaining elements as an output.)
 
-            int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 4, 3, 8, 9, 10 };
+            // Implement Paging using skip and take opeartors
+            // Paging is the process of dividing n number of records into multiple pages.
+            // Paging can be implemented using LINQ Skip and Take operator.
+            // How -
+            // Suppose total page - t
+            // Number of records per page - n
+            // Formula -
+            // For Index --> Skip(index * n) Take(n)
+            // For Pages --> Skip((pageNumber - 1) * n) Take(n)
 
-            List<string> names = new List<string>() { "Kim", "John", "Mark", "Adam", "Sam" };
+            int totalPagePerView = 10;
+            int pageNumber;
+            do
+            {
+                Console.WriteLine("Enter your page number");
+                if (int.TryParse(Console.ReadLine(), out pageNumber))
+                {
+                    if (pageNumber == -1) break;
+                    var ms = GetEmployee().Skip((pageNumber - 1) * totalPagePerView).Take(totalPagePerView).ToList();
+                    foreach (var record in ms)
+                    {
+                        Console.WriteLine($"Id: {record.Id}, Name: {record.Name}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Enter a valid page number");
+                }
+            }
+            while (pageNumber != -1);
 
-            // Take
-            var msTake = numbers.Take(5).ToArray();
-            var msTakeWhere = numbers.Where(num => num > 3).Take(5).ToArray();
+        }
+        public static List<Student> GetEmployee()
+        {
 
-            // TakeWhile
-            var msTakeWhile = numbers.TakeWhile(num => num < 5).ToArray();
-            var msTakeWhile1 = names.TakeWhile((name, index) => index < 3).ToArray();
-
-            // Skip
-            var msSkip = numbers.Skip(5).ToArray();
-            var msSkipWhere = numbers.Where(x => x > 5).Skip(2).ToArray();
-
-            // SkipWhile
-            var msSkipWhile = numbers.SkipWhile(x => x < 6).ToArray();
-            var msSKipWhile1 = names.SkipWhile((name, index) => index < 3).ToArray();
-
-            Console.ReadLine();
+            List<Student> students = Enumerable
+                .Range(1, 100)
+                .Select(i => new Student
+                {
+                    Id = i,
+                    Name = $"Student {i}"
+                })
+                .ToList();
+            return students;
         }
     }
 }
